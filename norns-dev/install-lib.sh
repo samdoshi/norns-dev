@@ -95,7 +95,7 @@ function install_supercollider() {
           -DSC_VIM=OFF \
           -DSC_WII=OFF \
           ..
-    make -j
+    make -j1
     make install
     cd /
     rm -r /tmp/supercollider
@@ -112,7 +112,7 @@ function install_sc3_plugins {
     cmake -DSC_PATH=/usr/local/include/SuperCollider \
           -DNATIVE=OFF \
           ..
-    cmake --build . --config Release
+    cmake --build . --config Release -- -j1
     cmake --build . --config Release --target install
     cd /
     rm -rf /tmp/sc3-plugins

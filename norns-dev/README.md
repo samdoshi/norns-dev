@@ -59,3 +59,7 @@ At this point you can interactively configure and compile software, and then use
 
 Alternatively, you can comment out steps in `install.sh` to have `make build` create a partially built image.
 
+## Notes
+
+`supercollider` and `sc3-plugins` are built with `make -j1` to reduce the amount of memory required so that they build as 'automated builds' on Docker Hub, or in the default 2GB Docker for Mac virtual machine.
+
