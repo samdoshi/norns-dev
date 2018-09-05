@@ -1,0 +1,3 @@
+deb https://deb.nodesource.com/node_8.x stretch main
+deb-src https://deb.nodesource.com/node_8.x stretch main
+deb https://dl.yarnpkg.com/debian/ stable main
