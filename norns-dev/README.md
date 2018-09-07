@@ -17,6 +17,8 @@ The image makes available:
  - **[`jack2`][jack2]**: compiled without D-Bus to allow it to run headless.
  - **[`lua`][lua], [`luarocks`][luarocks] & [`ldoc`][ldoc]**: `ldoc` is required to build the Lua documentation.
  - **[`supercollider`][supercollider] & [`sc3-plugins`][sc3-plugins]**: compiled without the IDE.
+ - **[`libmonome`][libmonome]**: without OSC and with `udev` disabled as it doesn't work well in the Docker environment.
+ - **[`nanomsg`][nanomsg]**: required for `ws-wrapper`.
  
 Please see `install.sh` and `install-lib.sh` to see exactly what is installed.
  
@@ -30,6 +32,8 @@ Please see `install.sh` and `install-lib.sh` to see exactly what is installed.
 [sc3-plugins]: https://supercollider.github.io/sc3-plugins/
 [node]: https://nodejs.org/en/
 [yarn]: https://yarnpkg.com/en/
+[libmonome]: https://github.com/monome/libmonome
+[nanomsg]: https://github.com/nanomsg/nanomsg
 
 ## Summary of `Makefile` targets
 
