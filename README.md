@@ -7,7 +7,7 @@
 ## Docker images in this repo
 
  - [`norns-dev`](norns-dev/): base Docker image, provides the build and run-time dependencies.
- - [`norns-dummy-test`](norns-dummy-test/): _coming soon_ runs `jackd`, `crone`, `matron`, and `maiden`, but only using a dummy audio out
+ - [`norns-test-dummy`](norns-test-dummy/): runs `jackd`, `crone`, `matron`, and `maiden`, but only using a dummy audio out.
 
 ## Linux
 

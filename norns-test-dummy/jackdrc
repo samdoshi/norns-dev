@@ -1,0 +1,1 @@
+/usr/local/bin/jackd --no-realtime -d dummy
