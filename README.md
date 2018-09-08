@@ -6,12 +6,15 @@
 
 ## Docker images in this repo
 
- - [`norns-dev`](norns-dev/): base Docker image, provides the build and run-time dependencies.
- - [`norns-test-dummy`](norns-test-dummy/): runs `jackd`, `crone`, `matron`, and `maiden`, but only using a dummy audio out.
+ - [`norns-dev`][]: base Docker image, provides the build and run-time dependencies.
+ - [`norns-test-dummy`][]: runs `jackd`, `crone`, `matron`, and `maiden`, but only using a dummy audio out, instructions are also provided for sound output and grid connectivity on Linux.
+
+[`norns-dev`]: norns-dev/
+[`norns-test-dummy`]: norns-test-dummy/
 
 ## Linux
 
-Worked example coming soon.
+Developer focused example coming soon, but for now see [`norns-test-dummy`] which provides instructions on connecting audio and grids.
 
 ## OS X
 
