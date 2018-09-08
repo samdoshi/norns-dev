@@ -1,9 +1,9 @@
 .phony: build run run-bash run-bash-root shell shell-root
 
-build: Dockerfile jackdrc
+build:
 	docker build -t samdoshi/norns-test-dummy .
 
-run: build
+run:
 	docker run --rm -it \
 		--cap-add=SYS_NICE \
 		--cap-add=SYS_PTRACE --security-opt seccomp=unconfined \
@@ -14,7 +14,7 @@ run: build
 		--name norns-test-dummy \
 		samdoshi/norns-test-dummy
 
-run-bash: build
+run-bash:
 	docker run --rm -it \
 		--cap-add=SYS_NICE \
 		--cap-add=SYS_PTRACE --security-opt seccomp=unconfined \
@@ -26,7 +26,7 @@ run-bash: build
 		samdoshi/norns-test-dummy \
 		bash
 
-run-bash-root: build
+run-bash-root:
 	docker run --rm -it \
 		--user root \
 		--cap-add=SYS_NICE \
