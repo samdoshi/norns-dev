@@ -12,7 +12,7 @@ Please visit [github.com/samdoshi/norns-dev][norns-dev] for information on how t
 
 The image makes available:
 
- - **[`go`][go] & [`glide`][glide]**: required to build [`maiden`][maiden].
+ - **[`go`][go]**: required to build [`maiden`][maiden].
  - **[`node`][node] & [`yarn`][yarn]**: required to build the front end for [`maiden`][maiden].
  - **[`jack2`][jack2]**: compiled without D-Bus to allow it to run headless.
  - **[`lua`][lua], [`luarocks`][luarocks] & [`ldoc`][ldoc]**: `ldoc` is required to build the Lua documentation.
@@ -23,7 +23,6 @@ The image makes available:
 Please see `install.sh` and `install-lib.sh` to see exactly what is installed.
  
 [go]: https://golang.org/
-[glide]: https://glide.sh/
 [jack2]: http://www.jackaudio.org/
 [lua]: http://www.lua.org/
 [luarocks]: https://luarocks.org/

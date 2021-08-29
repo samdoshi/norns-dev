@@ -4,16 +4,20 @@ windows:
   - window_name: norns
     layout: even-vertical
     panes:
-      - $(cat /etc/jackdrc)
       - shell_command:
-          - cd ~/norns
+          - export JACK_NO_START_SERVER=1
+          - export JACK_NO_AUDIO_RESERVATION=1
+          - $(cat /etc/jackdrc)
+      - shell_command:
+          - cd /home/we/norns
           - sleep 2
           - ./crone.sh
       - shell_command:
-          - cd ~/norns
-          - sleep 4
+          - cd /home/we/norns
+          - sleep 6
           - ./matron.sh
       - shell_command:
-          - cd ~/go/src/github.com/monome/maiden
-          - sleep 6
-          - ./maiden -app ./app/build -data ~/dust -doc ~/norns/doc
+          - cd /home/we/maiden
+          - sleep 8
+          # The following command is from ~/maiden/start.sh
+          - ./maiden server --app ./app/build --data ~/dust --doc ~/norns/doc

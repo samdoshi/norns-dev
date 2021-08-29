@@ -29,6 +29,7 @@ Please view the `Makefile` to see the exact options given to the `docker` comman
 
  - **`build`**: builds the Docker image and tags it as `samdoshi/norns-test-dummy`.
  - **`run`**: runs the image leaving you in a [`tmux`][] session with `jackd`, `crone`, `matron` and `maiden` running in individual panes.
+ - **`run-audio`**: same as `run` but with audio exported. Tested on Linux, your mileage may vary.
  - **`run-bash`**: runs the image but doesn't start the [`tmux`][] session.
  - **`run-bash-root`**: as `run-bash` but starts a `root` `bash` shell, instead of the `we` user.
  - **`shell`**: starts a shell in an _already running_ Docker process, it is useful with the `run` target.
@@ -67,7 +68,7 @@ Then I can use the following `docker run` command:
 ```
 docker run --rm -it \
     --device /dev/snd \
-    --group-add $(getent group audio | cut -d: -f3) \
+    --group-add $(shell getent group audio | cut -d: -f3) \
     --ulimit rtprio=95 --ulimit memlock=-1 --shm-size=256m \
     -p 5000:5000 \
     -p 5555:5555 \
@@ -77,7 +78,7 @@ docker run --rm -it \
     samdoshi/norns-test-dummy
 ```
 
-(We use the `$(getend...)` as we need to use the `gid` of the group from the host)
+(We use the `$(getent...)` as we need to use the `gid` of the group from the host)
 
 If all has gone well, you'll see the 4 panes inside [`tmux`][] appear, and once all the applications have started running you can visit http://127.0.0.1:5000/maiden/ and run a script. I would suggest starting with `tehn/awake.lua`.
 

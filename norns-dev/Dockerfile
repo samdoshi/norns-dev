@@ -1,4 +1,4 @@
-FROM debian:9.5
+FROM debian:10.10
 
 ENV LANG=C.UTF-8 \
     DEBIAN_FRONTEND=noninteractive \

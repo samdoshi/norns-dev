@@ -1,14 +1,15 @@
-#!/bin/bash -e
+#!/bin/sh
 
-GOLANG_VERSION=1.11
-GLIDE_VERSION=0.13.1
-JACK2_VERSION=1.9.12
-LIBMONOME_VERSION=1.4.2
-NANOMSG_VERSION=1.1.4
-SUPERCOLLIDER_VERSION=3.9.3
-SUPERCOLLIDER_PLUGINS_VERSION=3.9.1
+set -ex
 
-function install_setup_apt() {
+GOLANG_VERSION=1.17
+JACK2_VERSION=1.9.19
+LIBMONOME_VERSION=1.4.4
+NANOMSG_VERSION=1.1.5
+SUPERCOLLIDER_VERSION=3.12.0
+SUPERCOLLIDER_PLUGINS_VERSION=3.11.1
+
+install_setup_apt() {
     apt-get update -q
     apt-get install -qy --no-install-recommends \
             apt-transport-https \
@@ -20,9 +21,9 @@ function install_setup_apt() {
     cp /tmp/install/sources.list /etc/apt/sources.list.d/
 }
 
-function install_packages() {
-    apt-get update -q
-    apt-get dist-upgrade -q
+install_packages() {
+    apt-get update -yq
+    apt-get dist-upgrade -yq
     apt-get install -qy --no-install-recommends \
             build-essential \
             bzip2 \
@@ -55,18 +56,18 @@ function install_packages() {
             yarn
 }
 
-function install_clean_apt() {
+install_clean_apt() {
     apt-get clean
     rm -rf /var/lib/apt/lists/*
 }
 
-function install_jack2() {
+install_jack2() {
     mkdir -p /tmp/jack2
     cd /tmp/jack2
-    wget -q https://github.com/jackaudio/jack2/releases/download/v$JACK2_VERSION/jack2-$JACK2_VERSION.tar.gz -O jack2.tar.gz
+    wget -q https://github.com/jackaudio/jack2/archive/v${1:-$JACK2_VERSION}.tar.gz -O jack2.tar.gz
     tar xvfz jack2.tar.gz
-    cd jack2-$JACK2_VERSION
-    ./waf configure --classic --alsa=yes --firewire=no --freebob=no --iio=no --portaudio=no
+    cd jack2-${1:-$JACK2_VERSION}
+    ./waf configure --classic --alsa=yes --firewire=no --iio=no --portaudio=no --prefix /usr
     ./waf
     ./waf install
     cd /
@@ -74,15 +75,16 @@ function install_jack2() {
     ldconfig
 }
 
-function install_supercollider() {
+install_supercollider() {
     mkdir -p /tmp/supercollider
     cd /tmp/supercollider
-    wget -q https://github.com/supercollider/supercollider/releases/download/Version-$SUPERCOLLIDER_VERSION/SuperCollider-$SUPERCOLLIDER_VERSION-Source-linux.tar.bz2 -O sc.tar.bz2
+    wget -q https://github.com/supercollider/supercollider/releases/download/Version-${1:-$SUPERCOLLIDER_VERSION}/SuperCollider-${1:-$SUPERCOLLIDER_VERSION}-Source.tar.bz2 -O sc.tar.bz2
     tar xvf sc.tar.bz2
-    cd /tmp/supercollider/SuperCollider-Source
+    cd /tmp/supercollider/SuperCollider-${1:-$SUPERCOLLIDER_VERSION}-Source
     mkdir -p build
     cd build
     cmake -DCMAKE_BUILD_TYPE="Release" \
+          -DCMAKE_INSTALL_PREFIX=/usr/local \
           -DBUILD_TESTING=OFF \
           -DENABLE_TESTSUITE=OFF \
           -DNATIVE=OFF \
@@ -93,7 +95,6 @@ function install_supercollider() {
           -DSC_EL=OFF \
           -DSUPERNOVA=ON \
           -DSC_VIM=OFF \
-          -DSC_WII=OFF \
           ..
     make -j1
     make install
@@ -102,10 +103,10 @@ function install_supercollider() {
     ldconfig
 }
 
-function install_sc3_plugins {
+install_sc3_plugins() {
     mkdir -p /tmp/sc3-plugins
     cd /tmp/sc3-plugins
-    git clone --depth=1 --recursive --branch Version-$SUPERCOLLIDER_PLUGINS_VERSION https://github.com/supercollider/sc3-plugins.git
+    git clone --depth=1 --recursive --branch Version-${1:-$SUPERCOLLIDER_PLUGINS_VERSION} https://github.com/supercollider/sc3-plugins.git
     cd sc3-plugins
     mkdir -p build
     cd build
@@ -119,12 +120,12 @@ function install_sc3_plugins {
     ldconfig
 }
 
-function install_nanomsg {
+install_nanomsg() {
     mkdir -p /tmp/nanomsg
     cd /tmp/nanomsg
-    wget -q https://github.com/nanomsg/nanomsg/archive/$NANOMSG_VERSION.tar.gz -O nanomsg.tar.gz
+    wget -q https://github.com/nanomsg/nanomsg/archive/${1:-$NANOMSG_VERSION}.tar.gz -O nanomsg.tar.gz
     tar xvfz nanomsg.tar.gz
-    cd nanomsg-$NANOMSG_VERSION
+    cd nanomsg-${1:-$NANOMSG_VERSION}
     mkdir build
     cd build
     cmake ..
@@ -135,12 +136,12 @@ function install_nanomsg {
     ldconfig
 }
 
-function install_libmonome() {
+install_libmonome() {
     mkdir -p /tmp/libmonome
     cd /tmp/libmonome
-    wget -q https://github.com/monome/libmonome/archive/v$LIBMONOME_VERSION.tar.gz -O libmonome.tar.gz
+    wget -q https://github.com/monome/libmonome/archive/v${1:-$LIBMONOME_VERSION}.tar.gz -O libmonome.tar.gz
     tar xvfz libmonome.tar.gz
-    cd libmonome-$LIBMONOME_VERSION
+    cd libmonome-${1:-$LIBMONOME_VERSION}
     ./waf configure --disable-udev --disable-osc
     ./waf
     ./waf install
@@ -149,24 +150,14 @@ function install_libmonome() {
     ldconfig
 }
 
-function install_go() {
+install_go() {
     mkdir -p /tmp/go
-    wget -q https://golang.org/dl/go$GOLANG_VERSION.linux-amd64.tar.gz -O go.tar.gz
+    wget -q https://golang.org/dl/go${1:-$GOLANG_VERSION}.linux-amd64.tar.gz -O go.tar.gz
     tar -C /usr/local -xzf go.tar.gz
     cd /
     rm -r /tmp/go
 }
 
-function install_glide() {
-    mkdir -p /tmp/glide
-    cd /tmp/glide
-    wget -q https://github.com/Masterminds/glide/releases/download/v$GLIDE_VERSION/glide-v$GLIDE_VERSION-linux-amd64.tar.gz -O glide.tar.gz
-    tar xvfz glide.tar.gz
-    mv linux-amd64/glide /usr/local/go/bin
-    cd /
-    rm -r /tmp/glide
-}
-
-function install_ldoc() {
+install_ldoc() {
     luarocks install ldoc
 }

@@ -14,6 +14,20 @@ run:
 		--name norns-test-dummy \
 		samdoshi/norns-test-dummy
 
+run-audio:
+	docker run --rm -it \
+		--device /dev/snd \
+		--group-add $(shell getent group audio | cut -d: -f3) \
+		--cap-add=SYS_NICE \
+		--cap-add=SYS_PTRACE --security-opt seccomp=unconfined \
+		--ulimit rtprio=95 --ulimit memlock=-1 --shm-size=256m \
+		-p 5000:5000 \
+		-p 5555:5555 \
+		-p 5556:5556 \
+		--name norns-test-dummy \
+		-v /tmp/jackdrc:/etc/jackdrc \
+		samdoshi/norns-test-dummy
+
 run-bash:
 	docker run --rm -it \
 		--cap-add=SYS_NICE \
