@@ -21,6 +21,12 @@ windows:
           - sleep 6
           - ./matron.sh
       - shell_command:
+          # Connect vnc server to the display
+          - sleep 8
+          - export DISPLAY=:0
+          - window_id=$(xwininfo -root -tree | grep matron | tail -n1 | sed "s/^[ \t]*//" | cut -d ' ' -f1)
+          - x11vnc -id $window_id
+      - shell_command:
           - cd /home/we/maiden
           - sleep 8
           # The following command is from ~/maiden/start.sh

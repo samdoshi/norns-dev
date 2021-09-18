@@ -24,6 +24,7 @@ run-audio:
 		-p 5000:5000 \
 		-p 5555:5555 \
 		-p 5556:5556 \
+		-p 5900:5900 \
 		--name norns-test-dummy \
 		-v /tmp/jackdrc:/etc/jackdrc \
 		samdoshi/norns-test-dummy

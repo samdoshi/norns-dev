@@ -22,6 +22,8 @@ RUN apt-get update -q && \
             vim \
             libboost-dev \
             libsdl2-dev \
+            x11-utils \
+            x11vnc \
             xvfb && \
     #apt-get clean && \
     #rm -rf /var/lib/apt/lists/* && \
