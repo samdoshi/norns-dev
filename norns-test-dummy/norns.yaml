@@ -13,6 +13,10 @@ windows:
           - sleep 2
           - ./crone.sh
       - shell_command:
+          # Extract buffer from the container and display:
+          #   docker cp norns-test-dummy:/tmp/Xvfb_screen0 . && xwud -in Xvfb_screen0
+          - Xvfb :0 -screen 0 128x64x16 -fbdir /tmp &
+          - export DISPLAY=:0
           - cd /home/we/norns
           - sleep 6
           - ./matron.sh
