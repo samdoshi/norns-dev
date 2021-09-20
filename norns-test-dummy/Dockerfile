@@ -22,11 +22,10 @@ RUN apt-get update -q && \
             vim \
             libboost-dev \
             libsdl2-dev \
-            x11-utils \
             x11vnc \
             xvfb && \
-    #apt-get clean && \
-    #rm -rf /var/lib/apt/lists/* && \
+    apt-get clean && \
+    rm -rf /var/lib/apt/lists/* && \
     pip3 install tmuxp==1.4.0
 
 USER we
@@ -39,13 +38,6 @@ RUN git clone $MAIDEN_REPO maiden_src && \
     make release-local && \
     tar -xvf dist/maiden.tgz -C /home/we && \
     /home/we/maiden/project-setup.sh
-
-# DUST - maiden data directory.
-RUN /home/we/maiden/project-setup.sh && \
-    mkdir -p dust/code && \
-    cd dust/code && \
-    # TODO: More scripts - which ones??
-    git clone https://github.com/tehn/awake.git
 
 # MATRON (Norns)
 RUN git clone $NORNS_REPO && \
@@ -60,6 +52,21 @@ RUN mkdir -p /home/we/.local/share/SuperCollider/Extensions/norns && \
     cd /home/we/norns/sc && \
     ./install.sh && \
     echo | sclang
+
+# DUST - maiden data directory.
+RUN /home/we/maiden/project-setup.sh && \
+    mkdir -p dust/code && \
+    cd dust/code && \
+    # TODO: More scripts - which ones??
+    git clone https://github.com/tehn/awake.git && \
+    git clone https://github.com/p3r7/3d.git && \
+    git clone https://github.com/northern-information/dronecaster.git && \
+    git clone https://github.com/justmat/showers.git && \
+    git clone https://github.com/distropolis/pixels.git && \
+    git clone https://github.com/ambalek/raindrops.git && \
+    git clone https://github.com/tomwaters/spirals.git && \
+    git clone https://github.com/tomwaters/breakthrough.git && \
+    git clone https://github.com/jaseknighter/flora.git
 
 COPY ["jackdrc", "/etc/jackdrc"]
 COPY ["norns.yaml", "/home/we/.tmuxp/norns.yaml"]
