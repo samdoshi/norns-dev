@@ -5,6 +5,13 @@ windows:
     layout: even-vertical
     panes:
       - shell_command:
+          # Extract buffer from the container and display:
+          #   docker cp norns-test-dummy:/tmp/Xvfb_screen0 . && xwud -in Xvfb_screen0
+          - Xvfb :0 -screen 0 128x64x16 -fbdir /tmp &
+          # Connect vnc server to the display
+          - export DISPLAY=:0
+          - x11vnc -forever
+      - shell_command:
           - export JACK_NO_START_SERVER=1
           - export JACK_NO_AUDIO_RESERVATION=1
           - $(cat /etc/jackdrc)
@@ -13,20 +20,12 @@ windows:
           - sleep 2
           - ./crone.sh
       - shell_command:
-          # Extract buffer from the container and display:
-          #   docker cp norns-test-dummy:/tmp/Xvfb_screen0 . && xwud -in Xvfb_screen0
-          - Xvfb :0 -screen 0 128x64x16 -fbdir /tmp &
+          - sleep 4
           - export DISPLAY=:0
           - cd /home/we/norns
-          - sleep 6
           - ./matron.sh
       - shell_command:
-          # Connect vnc server to the display
-          - sleep 8
-          - export DISPLAY=:0
-          - x11vnc -forever
-      - shell_command:
           - cd /home/we/maiden
-          - sleep 8
+          - sleep 6
           # The following command is from ~/maiden/start.sh
           - ./maiden server --app ./app/build --data ~/dust --doc ~/norns/doc

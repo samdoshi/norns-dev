@@ -66,7 +66,9 @@ RUN /home/we/maiden/project-setup.sh && \
     git clone https://github.com/ambalek/raindrops.git && \
     git clone https://github.com/tomwaters/spirals.git && \
     git clone https://github.com/tomwaters/breakthrough.git && \
-    git clone https://github.com/jaseknighter/flora.git
+    git clone https://github.com/jaseknighter/flora.git && \
+    git clone https://github.com/synthetiv/euclidigons.git && \
+    git clone https://github.com/JakeCarter/circles.git
 
 COPY ["jackdrc", "/etc/jackdrc"]
 COPY ["norns.yaml", "/home/we/.tmuxp/norns.yaml"]
