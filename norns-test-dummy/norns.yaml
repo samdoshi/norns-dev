@@ -8,6 +8,8 @@ windows:
           # Extract buffer from the container and display:
           #   docker cp norns-test-dummy:/tmp/Xvfb_screen0 . && xwud -in Xvfb_screen0
           - Xvfb :0 -screen 0 128x64x16 -fbdir /tmp &
+          # Serve static display
+          - /usr/local/go/bin/go run /home/we/oled-server.go -window-name 'matron' -port 8889
           # Connect vnc server to the display
           - export DISPLAY=:0
           - x11vnc -forever

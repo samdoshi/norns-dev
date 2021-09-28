@@ -21,9 +21,13 @@ RUN apt-get update -q && \
             tmux \
             vim \
             libboost-dev \
+            # oled display
             libsdl2-dev \
             x11vnc \
-            xvfb && \
+            xvfb \
+            # display server
+            x11-apps \
+            imagemagick && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/* && \
     pip3 install tmuxp==1.4.0
@@ -73,5 +77,6 @@ RUN /home/we/maiden/project-setup.sh && \
 COPY ["jackdrc", "/etc/jackdrc"]
 COPY ["norns.yaml", "/home/we/.tmuxp/norns.yaml"]
 COPY ["tmux.conf", "/home/we/.tmux.conf"]
+COPY ["oled-server.go", "/home/we/oled-server.go"]
 
 CMD tmuxp load norns
