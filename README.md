@@ -1,3 +1,16 @@
+# Unmaintained
+
+**I'm not longer maintaing this repo**
+
+Please visit [`winder/norns-dev`][winder] for a version with working screen & input.
+
+There are also lots of updates on this [lines thread][lines].
+
+[winder]: https://github.com/winder/norns-dev
+[lines]: https://llllllll.co/t/getting-norns-running-inside-docker-working/14938?u=sam
+
+---
+
 # Setting up a Norns development environment
 
 **THIS REPO IS STILL A WORK IN PROGRESS**
